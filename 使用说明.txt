@@ -1,0 +1,7 @@
+本项目是基于springBoot做的一个api计数器
+jdk:1.7
+maven:3.3
+redis:3.0
+mysql:5.6
+开发工具:IntelliJ IDEA 15.0.4
+使用前先修改application.yml以及/util/RedisUtil.java
