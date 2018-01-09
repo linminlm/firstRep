@@ -13,3 +13,9 @@
 <p>Only a empty project!</p>
 <p>############## Version 2.0 ###################</p>
 <p>API counter and Encapsulates the return results</p>
+<p>############## Version 2.1 ###################</p>
+<p>There is a large of BUG in Version 2.0 </p>
+<p>These bugs have been fixed in version 2.1.</p>
+<p>These bugs will be avoided as much as possible in future releases.</p>
+<p>If you have any good Suggestions and comments, please let me know.</p>
+<p>My QQ : 806751350</p>
