@@ -26,43 +26,40 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserException<User> userLists() {
+    public List<User> userLists() {
         try {
-            List<User> userList = userDao.findAll();
-            return new UserException<User>(UserEnum.SUCCESS.getStatus(),UserEnum.SUCCESS.getMessage(),userList);
+            return userDao.findAll();
         } catch (Exception e) {
-            return new UserException<User>(UserEnum.SEL_FAIL.getStatus(),UserEnum.SEL_FAIL.getMessage());
+            throw new UserException(UserEnum.UNKNOWN_FAIL);
         }
     }
 
     @Override
-    public UserException<User> addUser(User user) {
-        try {
-            User user1 = userDao.save(user);
-            return new UserException<User>(UserEnum.SUCCESS.getStatus(),UserEnum.SUCCESS.getMessage(),user1);
-        } catch (Exception e) {
-            return new UserException<User>(UserEnum.ADD_FAIL.getStatus(),UserEnum.ADD_FAIL.getMessage());
-        }
-
-    }
-
-    @Override
-    public UserException<User> delUser(Integer id) {
-        try {
-            userDao.delete(id);
-            return new UserException<User>(UserEnum.SUCCESS.getStatus(),UserEnum.SUCCESS.getMessage());
-        } catch (Exception e) {
-            return new UserException<User>(UserEnum.DEL_FAIL.getStatus(),UserEnum.DEL_FAIL.getMessage());
-        }
-    }
-
-    @Override
-    public UserException<User> updUser(User user) {
+    public User addUser(User user) {
         try {
             User save = userDao.save(user);
-            return new UserException<User>(UserEnum.SUCCESS.getStatus(),UserEnum.SUCCESS.getMessage(),save);
+            return save;
         } catch (Exception e) {
-            return new UserException<User>(UserEnum.UPD_FAIL.getStatus(),UserEnum.UPD_FAIL.getMessage());
+            throw new UserException(UserEnum.ADD_FAIL);
+        }
+    }
+
+    @Override
+    public void delUser(Integer id) {
+        try {
+            userDao.delete(id);
+        } catch (Exception e) {
+            throw new UserException(UserEnum.DEL_FAIL);
+        }
+    }
+
+    @Override
+    public User updUser(User user) {
+        try {
+            User save = userDao.save(user);
+            return save;
+        } catch (Exception e) {
+            throw new UserException(UserEnum.UPD_FAIL);
         }
     }
 }

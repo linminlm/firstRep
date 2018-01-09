@@ -1,10 +1,11 @@
 package com.example.controller;
 
 import com.example.entity.User;
-import com.example.exception.UserException;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @项目：test
@@ -20,22 +21,25 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/list")
-    public UserException<User> list(){
-        return userService.userLists();
+    public Object list(){
+        List<User> users = userService.userLists();
+        return users;
     }
 
     @PostMapping("/addUser")
-    public UserException<User> addUser(User user){
-        return userService.addUser(user);
+    public Object addUser(User user){
+        User user1 = userService.addUser(user);
+        return user1;
     }
 
     @GetMapping("/delUser/{id}")
-    public UserException<User> delUser(@PathVariable("id") Integer id){
-        return userService.delUser(id);
+    public Object delUser(@PathVariable("id") Integer id){
+        userService.delUser(id);
+        return null;
     }
 
     @PutMapping("/updUser")
-    public UserException<User> updUser(User user){
+    public Object updUser(User user){
         return userService.updUser(user);
     }
 }

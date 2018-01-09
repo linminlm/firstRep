@@ -1,9 +1,14 @@
 package com.example.advice;
 
+import com.example.result.DataResult;
 import com.example.util.RedisUtil;
+import com.example.util.ResultUtil;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -25,11 +30,14 @@ import java.util.Map;
 @Component
 public class HttpAdvice {
 
+    @Pointcut("execution(public * com.example.controller.UserController.*(..)))")
+    public void userCut(){}
+
     /**
      *  对api的使用进行统计
      * @param joinPoint
      */
-    @Before("execution(public * com.example.controller.UserController.*(..))")
+    @Before("userCut()")
     public void beforeRequest(JoinPoint joinPoint){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         //get session to get user info
@@ -59,4 +67,19 @@ public class HttpAdvice {
         map.put(controllerName+"."+methodName,count+"");
         jedis.hmset(userIP,map);
     }
+
+
+    /**
+     * 对返回值再次封装
+     * @param pjp
+     * @return
+     * @throws Throwable
+     */
+    @Around("userCut()")
+    public DataResult resData(ProceedingJoinPoint pjp) throws Throwable {
+        Object object = pjp.proceed();
+
+        return ResultUtil.succuss(object);
+    }
+
 }

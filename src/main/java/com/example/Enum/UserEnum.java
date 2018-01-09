@@ -11,7 +11,8 @@ public enum UserEnum {
     DEL_FAIL("500","删除失败"),
     ADD_FAIL("500","添加失败"),
     UPD_FAIL("500","修改失败"),
-    SEL_FAIL("500","查询失败");
+    SEL_FAIL("500","查询失败"),
+    UNKNOWN_FAIL("-1","不知名错误");
 
     private String status;
     private String message;
