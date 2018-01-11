@@ -10,3 +10,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  data:
+    mongodb:
+      uri: mongodb://test:boot@localhost:27017/testboot
