@@ -18,5 +18,7 @@
 <p>There is a large of BUG in Version 2.0 </p>
 <p>These bugs have been fixed in version 2.1.</p>
 <p>These bugs will be avoided as much as possible in future releases.</p>
+<p>############## Version 2.2 ###################</p>
+<p>ApiCounter information have already stored in mongodb</p>
 
 
