@@ -1,12 +1,20 @@
 package com.example.advice;
 
+import com.example.entity.nosql.ApiMonitorInfo;
 import com.example.result.DataResult;
+import com.example.service.ApiMonitorInfoService;
 import com.example.util.ResultUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @项目：test
@@ -18,6 +26,9 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class HttpAdvice {
+
+    @Autowired
+    private ApiMonitorInfoService apiMonitorInfoService;
 
     @Pointcut("execution(public * com.example.controller.UserController.*(..)))")
     public void userCut(){}
@@ -67,8 +78,27 @@ public class HttpAdvice {
      */
     @Around("userCut()")
     public DataResult resData(ProceedingJoinPoint joinPoint) throws Throwable {
-        //api计数器存放在mongdb中
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        //get session to get user info
+        HttpSession session = request.getSession();
 
+        //user compared to userdata of mysql.    not available
+
+        //get IP of user
+        String userIP = request.getRemoteAddr();
+
+        //get Controller className
+        String controllerName = joinPoint.getTarget().getClass().getName();
+
+        //get method name
+        String methodName = joinPoint.getSignature().getName();
+        //api计数器存放在mongdb中
+        ApiMonitorInfo apiInfo = new ApiMonitorInfo();
+        apiInfo.setControllerName(controllerName);
+        apiInfo.setMethodName(methodName);
+        apiInfo.setUserIP(userIP);
+
+        apiMonitorInfoService.saveApiMoniInfo(apiInfo);
 
         Object object = joinPoint.proceed();
 

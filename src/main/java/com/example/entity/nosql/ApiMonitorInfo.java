@@ -1,5 +1,7 @@
 package com.example.entity.nosql;
 
+import org.bson.types.ObjectId;
+
 import java.io.Serializable;
 
 /**
@@ -12,7 +14,7 @@ import java.io.Serializable;
 public class ApiMonitorInfo implements Serializable {
 
     private static final long serialVersionUID = -3258839839160856613L;
-    private Long id;
+    private ObjectId _id;
 
     //用户IP
     private String userIP;
@@ -26,12 +28,12 @@ public class ApiMonitorInfo implements Serializable {
     //调用次数
     private Long counter;
 
-    public Long getId() {
-        return id;
+    public ObjectId get_id() {
+        return _id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void set_id(ObjectId _id) {
+        this._id = _id;
     }
 
     public String getUserIP() {

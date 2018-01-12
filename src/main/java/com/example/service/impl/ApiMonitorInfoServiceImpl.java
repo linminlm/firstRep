@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 /**
  * @项目：test
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Query;
  * @创建时间：2018/1/11
  * @公司：汽车易生活
  */
+@Component
 public class ApiMonitorInfoServiceImpl implements ApiMonitorInfoService {
 
     @Autowired
@@ -23,6 +25,14 @@ public class ApiMonitorInfoServiceImpl implements ApiMonitorInfoService {
         Query query=new Query();
         query.addCriteria(Criteria.where("methodName").is(apiMonitorInfo.getMethodName()));
         query.addCriteria(Criteria.where("controllerName").is(apiMonitorInfo.getControllerName()));
-        //query.addCriteria(Criteria.where("userIP").is())
+        query.addCriteria(Criteria.where("userIP").is(apiMonitorInfo.getUserIP()));
+        ApiMonitorInfo one = mongoTemplate.findOne(query, ApiMonitorInfo.class);
+        if(one != null){
+            one.setCounter(one.getCounter()+1);
+            mongoTemplate.save(one);
+        }else{
+            apiMonitorInfo.setCounter(1L);
+            mongoTemplate.save(apiMonitorInfo);
+        }
     }
 }
