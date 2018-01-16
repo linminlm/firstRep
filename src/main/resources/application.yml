@@ -13,3 +13,14 @@ spring:
   data:
     mongodb:
       uri: mongodb://test:boot@localhost:27017/testboot
+
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html
+    cache: false
+
+mybatis:
+  type-aliases-package: com.example.entity
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml

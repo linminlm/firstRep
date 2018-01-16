@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.controller.api;
 
 import com.example.entity.User;
 import com.example.service.UserService;
@@ -15,7 +15,8 @@ import java.util.List;
  */
 
 @RestController
-public class UserController {
+@RequestMapping("/userApi")
+public class ApiUserController {
 
     @Autowired
     private UserService userService;

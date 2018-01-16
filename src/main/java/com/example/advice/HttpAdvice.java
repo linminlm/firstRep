@@ -30,8 +30,8 @@ public class HttpAdvice {
     @Autowired
     private ApiMonitorInfoService apiMonitorInfoService;
 
-    @Pointcut("execution(public * com.example.controller.UserController.*(..)))")
-    public void userCut(){}
+    @Pointcut("execution(public * com.example.controller.api.ApiUserController.*(..)))")
+    public void userApiCut(){}
 
     /**
      *  对api的使用进行统计
@@ -76,7 +76,7 @@ public class HttpAdvice {
      * @return
      * @throws Throwable
      */
-    @Around("userCut()")
+    @Around("userApiCut()")
     public DataResult resData(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         //get session to get user info

@@ -13,6 +13,8 @@ import java.util.List;
 public interface UserService {
     List<User> userLists();
 
+    User getOneUser(Integer id);
+
     User addUser(User user);
 
     void delUser(Integer id);

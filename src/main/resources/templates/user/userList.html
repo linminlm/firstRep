@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>userList</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <th>序列号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="user:${userList}">
+            <td th:text="${userStat.count}">11</td>
+            <td th:text="${user.name}">11</td>
+            <td th:text="${user.age}">11</td>
+            <td th:text="${user.id}">11</td>
+        </tr>
+
+    </table>
+</body>
+</html>

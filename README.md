@@ -6,6 +6,7 @@
 <p>You can clone my code from this repository.</p>
 <p>I often update my code.</p>
 <p>I hope you can tell your friend  my code when you clone my code</p>
+<p>There will be new technologies to add to the mix.</p>
 <p>If you have any good Suggestions and comments, please let me know.</p>
 <p>My QQ : 806751350</p>
 
@@ -20,5 +21,8 @@
 <p>These bugs will be avoided as much as possible in future releases.</p>
 <p>############## Version 2.2 ###################</p>
 <p>ApiCounter information have already stored in mongodb</p>
+<p>############## Version 2.2 ###################</p>
+<p>Using thymeleaf to add user list display page</p>
+<p>Integration with mybatis and using configuration files and annotations.</p>
 
 

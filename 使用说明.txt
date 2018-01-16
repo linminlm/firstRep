@@ -4,5 +4,10 @@ maven:3.3
 redis:3.0
 mongodb:3.2
 mysql:5.6
+orm:jpa + mybatis
+前端:html5+bootstrap
+模版引擎:thymeleaf
 开发工具:IntelliJ IDEA 15.0.4
 使用前先修改application.yml以及/util/RedisUtil.java
+
+

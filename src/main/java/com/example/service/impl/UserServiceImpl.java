@@ -4,6 +4,7 @@ import com.example.Enum.UserEnum;
 import com.example.dao.UserDao;
 import com.example.entity.User;
 import com.example.exception.UserException;
+import com.example.mapper.UserDaoMapper;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,24 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private UserDaoMapper userDaoMapper;
+
     @Override
     @Transactional(readOnly = true)
     public List<User> userLists() {
         try {
-            return userDao.findAll();
+            //return userDao.findAll();
+            return userDaoMapper.findAll();
+        } catch (Exception e) {
+            throw new UserException(UserEnum.UNKNOWN_FAIL);
+        }
+    }
+
+    @Override
+    public User getOneUser(Integer id) {
+        try {
+            return userDaoMapper.findOneById(id);
         } catch (Exception e) {
             throw new UserException(UserEnum.UNKNOWN_FAIL);
         }
