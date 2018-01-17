@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
+ * @User实体类
  * @项目：test
  * @创建者：linmin
  * @创建时间：2017/12/27

@@ -5,6 +5,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
+ * @连接redis的工具类
  * @项目：test
  * @创建者：linmin
  * @创建时间：2018/1/8

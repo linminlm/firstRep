@@ -1,8 +1,11 @@
 package com.example.advice;
 
+import com.example.Enum.UserEnum;
 import com.example.entity.nosql.ApiMonitorInfo;
+import com.example.exception.UserException;
 import com.example.result.DataResult;
 import com.example.service.ApiMonitorInfoService;
+import com.example.util.DateUtil;
 import com.example.util.ResultUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -15,6 +18,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @项目：test
@@ -78,6 +83,25 @@ public class HttpAdvice {
      */
     @Around("userApiCut()")
     public DataResult resData(ProceedingJoinPoint joinPoint) throws Throwable {
+        //Data updates are not allowed to be invoked.(00:00 - 03:00)
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");//设置日期格式
+        Date now =null;
+        Date beginTime = null;
+        Date endTime = null;
+        try {
+            now = df.parse(df.format(new Date()));
+            beginTime = df.parse("00:00");
+            endTime = df.parse("03:00");
+        } catch (Exception e) {
+            throw new UserException(UserEnum.UNKNOWN_FAIL);
+        }
+
+        Boolean flag = DateUtil.belongCalendar(now, beginTime, endTime);
+        if(flag){
+            throw new UserException(UserEnum.CANT_FAIL);
+        }
+
+        //get request to get session
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         //get session to get user info
         HttpSession session = request.getSession();

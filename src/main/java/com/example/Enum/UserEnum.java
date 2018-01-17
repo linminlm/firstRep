@@ -12,6 +12,7 @@ public enum UserEnum {
     ADD_FAIL("500","添加失败"),
     UPD_FAIL("500","修改失败"),
     SEL_FAIL("500","查询失败"),
+    CANT_FAIL("403","数据更新中暂不支持调用该接口..."),
     UNKNOWN_FAIL("-1","不知名错误");
 
     private String status;

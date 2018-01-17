@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 /**
+ * @mybatis UserMapper
  * @项目：test
  * @创建者：linmin
  * @创建时间：2018/1/16
