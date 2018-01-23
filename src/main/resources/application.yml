@@ -15,12 +15,25 @@ spring:
       uri: mongodb://test:boot@localhost:27017/testboot
 
   thymeleaf:
-    mode: HTML5
+    mode: LEGACYHTML5
     encoding: UTF-8
     content-type: text/html
     cache: false
+    prefix: classpath:/templates/
+
+  mail:
+    host: smtp-mail.outlook.com
+    username: lm15860256087@outlook.com
+    password: linmin520
+    default-encoding: utf-8
+    port: 587
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+mail.fromMail.addr: lm15860256087@outlook.com
 
 mybatis:
   type-aliases-package: com.example.entity
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
+

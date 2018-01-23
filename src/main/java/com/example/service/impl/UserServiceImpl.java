@@ -2,7 +2,7 @@ package com.example.service.impl;
 
 import com.example.Enum.UserEnum;
 import com.example.dao.UserDao;
-import com.example.entity.User;
+import com.example.entity.user.User;
 import com.example.exception.UserException;
 import com.example.mapper.UserDaoMapper;
 import com.example.service.UserService;

@@ -1,6 +1,6 @@
 package com.example.controller.api;
 
-import com.example.entity.User;
+import com.example.entity.user.User;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
