@@ -24,6 +24,8 @@ public class PubUser {
 
     private String privateKey;
 
+    private String pubKeyUserName;
+
     private String sign;
 
     private String salt;
@@ -36,6 +38,14 @@ public class PubUser {
     private Long createTime;
 
     private Long expiryTime;
+
+    public String getPubKeyUserName() {
+        return pubKeyUserName;
+    }
+
+    public void setPubKeyUserName(String pubKeyUserName) {
+        this.pubKeyUserName = pubKeyUserName;
+    }
 
     public String getSign() {
         return sign;

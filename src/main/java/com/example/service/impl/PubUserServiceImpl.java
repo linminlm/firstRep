@@ -26,15 +26,15 @@ public class PubUserServiceImpl implements PubUserService {
         String userName = pubUser.getUserName();
         String publicKey = RSAUtil.getPublicKey(keyMap);
         String privateKey = RSAUtil.getPrivateKey(keyMap);
+        String pubKeyUserName = Base64Utils.encode((publicKey + "[==]" + userName).getBytes());
         String sign = RSAUtil.sign(userName.getBytes(), privateKey);
         String checkCode = Base64Utils.encode(userName.getBytes());
-        String pwd = DigestUtils.md5Hex(pubUser.getPassword());
 
         SecureRandom random = new SecureRandom();
         byte bytes[] = new byte[15];
         random.nextBytes(bytes);
         String salt = Base64.encodeBase64String(bytes);
-
+        String pwd = DigestUtils.md5Hex(pubUser.getPassword()+salt);
         pubUser.setCheckCode(checkCode);
         pubUser.setCreateTime(new Date().getTime());
         pubUser.setExpiryTime(new Date().getTime()+30*60*1000);
@@ -42,6 +42,7 @@ public class PubUserServiceImpl implements PubUserService {
         pubUser.setPassword(pwd);
         pubUser.setPublicKey(publicKey);
         pubUser.setPrivateKey(privateKey);
+        pubUser.setPubKeyUserName(pubKeyUserName);
         pubUser.setSign(sign);
         pubUser.setSalt(salt);
 
