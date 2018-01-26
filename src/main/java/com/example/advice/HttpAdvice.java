@@ -2,9 +2,11 @@ package com.example.advice;
 
 import com.example.Enum.UserEnum;
 import com.example.entity.nosql.ApiMonitorInfo;
+import com.example.entity.user.User;
 import com.example.exception.UserException;
 import com.example.result.DataResult;
 import com.example.service.ApiMonitorInfoService;
+import com.example.util.Base64Utils;
 import com.example.util.DateUtil;
 import com.example.util.ResultUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -37,6 +39,9 @@ public class HttpAdvice {
 
     @Pointcut("execution(public * com.example.controller.api.ApiUserController.*(..)))")
     public void userApiCut(){}
+
+    @Pointcut("execution(public * com.example.controller.user.UserController.*(..)))")
+    public void userConCut(){}
 
     /**
      *  对api的使用进行统计
@@ -74,6 +79,19 @@ public class HttpAdvice {
 //        jedis.hmset(userIP,map);
 //    }
 
+    @Around("userConCut()")
+    public Object isLong(ProceedingJoinPoint joinPoint) throws Throwable {
+        //get request to get session
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        //get session to get user info
+        HttpSession session = request.getSession();
+
+        User bootUser = (User) session.getAttribute("bootUser");
+        if(bootUser == null){
+            return "redirect:/login";
+        }
+        return joinPoint.proceed();
+    }
 
     /**
      * 对返回值再次封装
@@ -101,12 +119,19 @@ public class HttpAdvice {
             throw new UserException(UserEnum.CANT_FAIL);
         }
 
+        //check publicKey of pubUser
+        Object[] args = joinPoint.getArgs();
+        //get key
+        String key = (String)args[0];
+        //get pk+"[==]"+un
+        String pkUsername = Base64Utils.decode(key).toString();
+        String[] pkunArr = pkUsername.split("[==]");
+        if(pkunArr.length < 2){
+
+        }
+
         //get request to get session
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        //get session to get user info
-        HttpSession session = request.getSession();
-
-        //user compared to userdata of mysql.    not available
 
         //get IP of user
         String userIP = request.getRemoteAddr();
