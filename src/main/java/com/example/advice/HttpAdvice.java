@@ -2,12 +2,15 @@ package com.example.advice;
 
 import com.example.Enum.UserEnum;
 import com.example.entity.nosql.ApiMonitorInfo;
+import com.example.entity.user.PubUser;
 import com.example.entity.user.User;
 import com.example.exception.UserException;
 import com.example.result.DataResult;
 import com.example.service.ApiMonitorInfoService;
+import com.example.service.PubUserService;
 import com.example.util.Base64Utils;
 import com.example.util.DateUtil;
+import com.example.util.RSAUtil;
 import com.example.util.ResultUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -36,6 +39,9 @@ public class HttpAdvice {
 
     @Autowired
     private ApiMonitorInfoService apiMonitorInfoService;
+
+    @Autowired
+    private PubUserService pubUserService;
 
     @Pointcut("execution(public * com.example.controller.api.ApiUserController.*(..)))")
     public void userApiCut(){}
@@ -124,10 +130,18 @@ public class HttpAdvice {
         //get key
         String key = (String)args[0];
         //get pk+"[==]"+un
-        String pkUsername = Base64Utils.decode(key).toString();
-        String[] pkunArr = pkUsername.split("[==]");
+        String pkUsername = new String(Base64Utils.decode(key));
+        String[] pkunArr = pkUsername.split("\\[==\\]");
         if(pkunArr.length < 2){
+            throw new UserException(UserEnum.UNKNOWN_FAIL);
+        }
 
+        String publicKey = pkunArr[0];
+        String username = pkunArr[1];
+
+        PubUser onePubUser = pubUserService.getOnePubUser(username);
+        if(onePubUser == null || !RSAUtil.verify(username.getBytes(),publicKey,onePubUser.getSign()) || !onePubUser.getStatus().equals("01")){
+            throw new UserException(UserEnum.UNKNOWN_FAIL);
         }
 
         //get request to get session

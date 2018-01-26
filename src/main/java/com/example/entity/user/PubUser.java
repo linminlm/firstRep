@@ -1,9 +1,6 @@
 package com.example.entity.user;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class PubUser {
@@ -20,8 +17,10 @@ public class PubUser {
 
     private String password;
 
+    @Column(columnDefinition="TEXT")
     private String publicKey;
 
+    @Column(columnDefinition="TEXT")
     private String privateKey;
 
     private String pubKeyUserName;

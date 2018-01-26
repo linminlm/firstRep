@@ -26,6 +26,7 @@ public class PubUserServiceImpl implements PubUserService {
         String userName = pubUser.getUserName();
         String publicKey = RSAUtil.getPublicKey(keyMap);
         String privateKey = RSAUtil.getPrivateKey(keyMap);
+        System.out.println(privateKey);
         String pubKeyUserName = Base64Utils.encode((publicKey + "[==]" + userName).getBytes());
         String sign = RSAUtil.sign(userName.getBytes(), privateKey);
         String checkCode = Base64Utils.encode(userName.getBytes());
@@ -45,8 +46,13 @@ public class PubUserServiceImpl implements PubUserService {
         pubUser.setPubKeyUserName(pubKeyUserName);
         pubUser.setSign(sign);
         pubUser.setSalt(salt);
-
+        System.out.println(privateKey);
         PubUser user = pubUserDao.save(pubUser);
         return user;
+    }
+
+    @Override
+    public PubUser getOnePubUser(String userName) {
+        return pubUserDao.findByUserName(userName);
     }
 }
