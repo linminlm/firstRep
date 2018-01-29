@@ -50,6 +50,7 @@ public class PubUserServiceImpl implements PubUserService {
         PubUser pubUser = pubUserDao.findByUserName(username);
         long nowTime = new Date().getTime();
         if(pubUser == null || !(pubUser.getCheckCode().equals(checkCode)) || pubUser.getExpiryTime()<nowTime){
+
             throw new UserException(UserEnum.UNKNOWN_FAIL);
         }
         pubUser.setStatus("01");

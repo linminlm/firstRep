@@ -32,6 +32,10 @@ spring:
       mail.smtp.starttls.enable: true
 mail.fromMail.addr: lm15860256087@outlook.com
 
+# 日志配置
+logging:
+  config: classpath:logback.xml
+
 mybatis:
   type-aliases-package: com.example.entity
   config-location: classpath:mybatis/mybatis-config.xml

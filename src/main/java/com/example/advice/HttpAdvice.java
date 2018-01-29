@@ -15,6 +15,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -35,6 +37,8 @@ import java.util.Date;
 @Aspect
 @Component
 public class HttpAdvice {
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private ApiMonitorInfoService apiMonitorInfoService;
@@ -121,6 +125,7 @@ public class HttpAdvice {
 
         Boolean flag = DateUtil.belongCalendar(now, beginTime, endTime);
         if(flag){
+            log.warn("有人在晚间调用接口!");
             throw new UserException(UserEnum.CANT_FAIL);
         }
 
@@ -134,11 +139,13 @@ public class HttpAdvice {
             //get publicKey
             publicKey = (String)args[1];
         }catch(Exception e){
+            log.error("调用接口失败原因：默认参数不对！");
             throw new UserException(UserEnum.UNKNOWN_FAIL);
         }
 
         PubUser onePubUser = pubUserService.getOnePubUser(username);
         if(onePubUser == null || !DigestUtils.md5Hex(onePubUser.getPrivateKey()).equals(publicKey) || !onePubUser.getStatus().equals("01")){
+            log.error("调用接口失败原因：默认参数不对！");
             throw new UserException(UserEnum.UNKNOWN_FAIL);
         }
 
