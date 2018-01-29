@@ -9,23 +9,19 @@ public class PubUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="email",unique=true)
     private String email;
 
+    @Column(name="username",unique = true)
     private String userName;
 
     private String nickName;
 
     private String password;
 
-    @Column(columnDefinition="TEXT")
-    private String publicKey;
-
-    @Column(columnDefinition="TEXT")
     private String privateKey;
 
-    private String pubKeyUserName;
-
-    private String sign;
+    private String publicKey;
 
     private String salt;
 
@@ -37,30 +33,6 @@ public class PubUser {
     private Long createTime;
 
     private Long expiryTime;
-
-    public String getPubKeyUserName() {
-        return pubKeyUserName;
-    }
-
-    public void setPubKeyUserName(String pubKeyUserName) {
-        this.pubKeyUserName = pubKeyUserName;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
-
-    public String getPublicKey() {
-        return publicKey;
-    }
-
-    public void setPublicKey(String publicKey) {
-        this.publicKey = publicKey;
-    }
 
     public String getPrivateKey() {
         return privateKey;
@@ -108,6 +80,14 @@ public class PubUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
     }
 
     public String getSalt() {

@@ -22,25 +22,25 @@ public class ApiUserController {
     private UserService userService;
 
     @GetMapping("/list")
-    public Object list(String key){
+    public Object list(String username,String key){
         List<User> users = userService.userLists();
         return users;
     }
 
     @PostMapping("/addUser")
-    public Object addUser(String key,User user){
+    public Object addUser(String username,String key,User user){
         User user1 = userService.addUser(user);
         return user1;
     }
 
     @GetMapping("/delUser/{id}")
-    public Object delUser(String key,@PathVariable("id") Integer id){
+    public Object delUser(String username,String key,@PathVariable("id") Integer id){
         userService.delUser(id);
         return null;
     }
 
     @PutMapping("/updUser")
-    public Object updUser(String key,User user){
+    public Object updUser(String username,String key,User user){
         return userService.updUser(user);
     }
 }

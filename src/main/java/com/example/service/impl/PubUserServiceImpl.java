@@ -1,10 +1,11 @@
 package com.example.service.impl;
 
+import com.example.Enum.UserEnum;
 import com.example.dao.PubUserDao;
 import com.example.entity.user.PubUser;
+import com.example.exception.UserException;
 import com.example.service.PubUserService;
 import com.example.util.Base64Utils;
-import com.example.util.RSAUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
 import java.util.Date;
-import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class PubUserServiceImpl implements PubUserService {
@@ -22,13 +23,9 @@ public class PubUserServiceImpl implements PubUserService {
 
     @Override
     public PubUser addPubUser(PubUser pubUser) throws Exception {
-        Map<String, Object> keyMap = RSAUtil.genKeyPair();
         String userName = pubUser.getUserName();
-        String publicKey = RSAUtil.getPublicKey(keyMap);
-        String privateKey = RSAUtil.getPrivateKey(keyMap);
-        System.out.println(privateKey);
-        String pubKeyUserName = Base64Utils.encode((publicKey + "[==]" + userName).getBytes());
-        String sign = RSAUtil.sign(userName.getBytes(), privateKey);
+        String privatekey = UUID.randomUUID().toString().replace("-","");
+        String publicKey = DigestUtils.md5Hex(privatekey);
         String checkCode = Base64Utils.encode(userName.getBytes());
 
         SecureRandom random = new SecureRandom();
@@ -41,14 +38,22 @@ public class PubUserServiceImpl implements PubUserService {
         pubUser.setExpiryTime(new Date().getTime()+30*60*1000);
         pubUser.setStatus("00");
         pubUser.setPassword(pwd);
+        pubUser.setPrivateKey(privatekey);
         pubUser.setPublicKey(publicKey);
-        pubUser.setPrivateKey(privateKey);
-        pubUser.setPubKeyUserName(pubKeyUserName);
-        pubUser.setSign(sign);
         pubUser.setSalt(salt);
-        System.out.println(privateKey);
         PubUser user = pubUserDao.save(pubUser);
         return user;
+    }
+
+    @Override
+    public void activeEmail(String checkCode, String username) {
+        PubUser pubUser = pubUserDao.findByUserName(username);
+        long nowTime = new Date().getTime();
+        if(pubUser == null || !(pubUser.getCheckCode().equals(checkCode)) || pubUser.getExpiryTime()<nowTime){
+            throw new UserException(UserEnum.UNKNOWN_FAIL);
+        }
+        pubUser.setStatus("01");
+        pubUserDao.save(pubUser);
     }
 
     @Override

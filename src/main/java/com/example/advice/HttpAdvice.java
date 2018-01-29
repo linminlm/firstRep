@@ -8,10 +8,9 @@ import com.example.exception.UserException;
 import com.example.result.DataResult;
 import com.example.service.ApiMonitorInfoService;
 import com.example.service.PubUserService;
-import com.example.util.Base64Utils;
 import com.example.util.DateUtil;
-import com.example.util.RSAUtil;
 import com.example.util.ResultUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -127,20 +126,19 @@ public class HttpAdvice {
 
         //check publicKey of pubUser
         Object[] args = joinPoint.getArgs();
-        //get key
-        String key = (String)args[0];
-        //get pk+"[==]"+un
-        String pkUsername = new String(Base64Utils.decode(key));
-        String[] pkunArr = pkUsername.split("\\[==\\]");
-        if(pkunArr.length < 2){
+        String username = null;
+        String publicKey = null;
+        try{
+            //get username
+            username = (String)args[0];
+            //get publicKey
+            publicKey = (String)args[1];
+        }catch(Exception e){
             throw new UserException(UserEnum.UNKNOWN_FAIL);
         }
 
-        String publicKey = pkunArr[0];
-        String username = pkunArr[1];
-
         PubUser onePubUser = pubUserService.getOnePubUser(username);
-        if(onePubUser == null || !RSAUtil.verify(username.getBytes(),publicKey,onePubUser.getSign()) || !onePubUser.getStatus().equals("01")){
+        if(onePubUser == null || !DigestUtils.md5Hex(onePubUser.getPrivateKey()).equals(publicKey) || !onePubUser.getStatus().equals("01")){
             throw new UserException(UserEnum.UNKNOWN_FAIL);
         }
 
