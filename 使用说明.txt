@@ -1,10 +1,12 @@
-本项目是基于springBoot做的一个api计数器
+目前本项目是基于springBoot做的一个api计数器
+目标：一个后台系统去用于监控其他系统以及接口的调用情况
 jdk:1.7
 maven:3.3
-redis:3.0
-mongodb:3.2
+redis:3.0(用于充当session)
+mongodb:3.2(用于存储当日api被调用的信息)
 mysql:5.6
 orm:jpa + mybatis(mybatis只是加入技术粗略使用)
+log:logback(记录每一个可记录的日志信息)
 前端:html5+bootstrap
 模版引擎:thymeleaf
 开发工具:IntelliJ IDEA 15.0.4
