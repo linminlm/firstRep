@@ -20,6 +20,8 @@ public class Member implements Serializable {
     @Column(unique = true)
     private String memberName;
 
+    private String  nickName;
+
     private String password;
 
     private String salt;
@@ -29,6 +31,14 @@ public class Member implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="SysMemRole",joinColumns = {@JoinColumn(name="mid")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<SysRole> roleList;
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public Integer getId() {
         return id;
@@ -77,4 +87,12 @@ public class Member implements Serializable {
     public void setRoleList(List<SysRole> roleList) {
         this.roleList = roleList;
     }
+    /**
+     * 密码盐.
+     * @return
+     */
+    public String getCredentialsSalt(){
+        return this.memberName+this.salt;
+    }
+    //重新对盐重新进行了定义，用户名+salt，这样就更加不容易被破解
 }

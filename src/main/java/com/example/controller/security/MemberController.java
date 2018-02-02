@@ -16,20 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/member")
 public class MemberController {
 
-    @RequestMapping("/login")
-    public ModelAndView loginView(){
-        ModelAndView mav = new ModelAndView("index/login");
-        return mav;
-    }
-
-    @RequestMapping("/register")
+    @RequestMapping("/add")
     public ModelAndView register(){
-        ModelAndView mav = new ModelAndView("index/register");
-        return mav;
-    }
-    @RequestMapping("/forgot")
-    public ModelAndView forgot(){
-        ModelAndView mav = new ModelAndView("index/forgot");
+        ModelAndView mav = new ModelAndView("member/add");
         return mav;
     }
 }

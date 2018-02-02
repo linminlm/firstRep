@@ -4,29 +4,29 @@
 		<meta charset="utf-8" />
 		<title>TC project - login</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+		<link rel="icon" type="image/x-icon" th:href="@{favicon.ico}">
 		<!-- basic styles -->
 
-		<link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet" />
-		<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}" />
+		<link th:href="@{assets/css/bootstrap.min.css}" rel="stylesheet" />
+		<link rel="stylesheet" th:href="@{assets/css/font-awesome.min.css}" />
 
 		<!--[if IE 7]>
-		  <link rel="stylesheet" th:href="@{/assets/css/font-awesome-ie7.min.css}" />
+		  <link rel="stylesheet" th:href="@{assets/css/font-awesome-ie7.min.css}" />
 		<![endif]-->
 
 		<!-- page specific plugin styles -->
 
 		<!-- fonts -->
 
-		<link rel="stylesheet" th:href="@{/assets/css/font.css}" />
+		<link rel="stylesheet" th:href="@{assets/css/font.css}" />
 
 		<!-- ace styles -->
 
-		<link rel="stylesheet" th:href="@{/assets/css/ace.min.css}" />
-		<link rel="stylesheet" th:href="@{/assets/css/ace-rtl.min.css}" />
+		<link rel="stylesheet" th:href="@{assets/css/ace.min.css}" />
+		<link rel="stylesheet" th:href="@{assets/css/ace-rtl.min.css}" />
 
 		<!--[if lte IE 8]>
-		  <link rel="stylesheet" th:href="@{/assets/css/ace-ie.min.css}" />
+		  <link rel="stylesheet" th:href="@{assets/css/ace-ie.min.css}" />
 		<![endif]-->
 
 		<!-- inline styles related to this page -->
@@ -34,9 +34,10 @@
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 		<!--[if lt IE 9]>
-		<script th:src="@{/assets/js/html5shiv.js}"></script>
-		<script th:src="@{/assets/js/respond.min.js}"></script>
+		<script th:src="@{assets/js/html5shiv.js}"></script>
+		<script th:src="@{assets/js/respond.min.js}"></script>
 		<![endif]-->
+		<script th:src="@{js/jquery.min.js}"></script>
 	</head>
 
 	<body class="login-layout">
@@ -67,7 +68,7 @@
 
 											<div class="space-6"></div>
 
-											<form th:action="@{/login}" method="post">
+											<form id="loginForm" action="" method="post">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -91,7 +92,7 @@
 															<span class="lbl"> Remember Me</span>
 														</label>
 
-														<button type="button" class="width-35 pull-right btn btn-sm btn-primary">
+														<button onclick="loginFun()" type="button" class="width-35 pull-right btn btn-sm btn-primary">
 															<i class="icon-key"></i>
 															Login
 														</button>
@@ -101,22 +102,6 @@
 												</fieldset>
 											</form>
 										</div><!-- /widget-main -->
-
-										<div class="toolbar clearfix">
-											<div>
-												<a th:href="@{/member/forgot}" class="forgot-password-link">
-													<i class="icon-arrow-left"></i>
-													I forgot my password
-												</a>
-											</div>
-
-											<div>
-												<a th:href="@{/member/register}" class="user-signup-link">
-													I want to register
-													<i class="icon-arrow-right"></i>
-												</a>
-											</div>
-										</div>
 									</div><!-- /widget-body -->
 								</div><!-- /login-box -->
 							</div><!-- /position-relative -->
@@ -127,4 +112,9 @@
 		</div><!-- /.main-container -->
 
 </body>
+<script>
+	function loginFun(){
+		$("#loginForm").submit();
+	}
+</script>
 </html>

@@ -89,7 +89,7 @@ public class HttpAdvice {
 //    }
 
     @Around("userConCut()")
-    public Object isLong(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object isLogin(ProceedingJoinPoint joinPoint) throws Throwable {
         //get request to get session
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         //get session to get user info

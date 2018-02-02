@@ -1,6 +1,6 @@
 server:
   port: 8081
-  context-path: /test
+  context-path: /
 human:
   name: linmin
   age: 18
