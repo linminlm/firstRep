@@ -4,15 +4,11 @@ import com.example.entity.security.Member;
 import com.example.entity.security.SysPermission;
 import com.example.entity.security.SysRole;
 import com.example.service.MemberService;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 
 import javax.annotation.Resource;
 
@@ -27,7 +23,6 @@ public class MyShiroRealm extends AuthorizingRealm {
     private MemberService memberService;
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        //System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         Member member  = (Member)principals.getPrimaryPrincipal();
         for(SysRole role:member.getRoleList()){
@@ -41,26 +36,11 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     /*主要是用来进行身份认证的，也就是说验证用户输入的账号和密码是否正确。*/
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
-            throws AuthenticationException {
-        //System.out.println("MyShiroRealm.doGetAuthenticationInfo()");
-        //获取用户的输入的账号.
-        String username = (String)token.getPrincipal();
-        //System.out.println(token.getCredentials());
-        //通过username从数据库中查找 User对象，如果找到，没找到.
-        //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
-        Member member = memberService.findByMembername(username);
-        //System.out.println("----->>userInfo="+userInfo);
-        if(member == null){
-            return null;
-        }
-        AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                member, //用户名
-                member.getPassword(), //密码
-                ByteSource.Util.bytes(member.getCredentialsSalt()),//salt=username+salt
-                getName()  //realm name
-        );
-        return authenticationInfo;
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        UsernamePasswordToken utoken=(UsernamePasswordToken) token;//获取用户输入的token
+        String username = utoken.getUsername();
+        Member user = memberService.findByMembername(username);
+        return new SimpleAuthenticationInfo(user, user.getPassword(),getName());//放入shiro.调用CredentialsMatcher检验密码
     }
 
 }
