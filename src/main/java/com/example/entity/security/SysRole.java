@@ -1,6 +1,7 @@
 package com.example.entity.security;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @公司：汽车易生活
  */
 @Entity
-public class SysRole {
+public class SysRole implements Serializable {
 
     @Id
     @GeneratedValue

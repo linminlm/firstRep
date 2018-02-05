@@ -22,10 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 public class PublicController {
     @RequestMapping(value="/login",method = {RequestMethod.POST,RequestMethod.GET})
     public String loginUser(@ModelAttribute("member") Member member,String rememberMe, HttpServletRequest request) {
-        //Boolean rem = rememberMe != null&&rememberMe.equals("yes")?true:false;
+        Boolean rem = rememberMe != null&&rememberMe.equals("yes")?true:false;
         String memberName = request.getParameter("memberName");
         String password = request.getParameter("password");
-        UsernamePasswordToken usernamePasswordToken=new UsernamePasswordToken(member.getMemberName(),member.getPassword());
+        UsernamePasswordToken usernamePasswordToken=new UsernamePasswordToken(member.getMemberName(),member.getPassword(),rem);
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(usernamePasswordToken);   //完成登录
