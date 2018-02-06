@@ -5,7 +5,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -21,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/public")
 public class PublicController {
     @RequestMapping(value="/login",method = {RequestMethod.POST,RequestMethod.GET})
-    public String loginUser(@ModelAttribute("member") Member member,String rememberMe, HttpServletRequest request) {
+    public String loginUser(Member member,String rememberMe, HttpServletRequest request) {
         Boolean rem = rememberMe != null&&rememberMe.equals("yes")?true:false;
         String memberName = request.getParameter("memberName");
         String password = request.getParameter("password");
@@ -36,6 +35,11 @@ public class PublicController {
             return "/public/login";//返回登录页面
         }
 
+    }
+
+    @RequestMapping(value="/loginView")
+    public String loginView(){
+        return "/public/login";
     }
 
     @RequestMapping("/logout")

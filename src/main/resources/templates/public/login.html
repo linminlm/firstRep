@@ -68,18 +68,18 @@
 
 											<div class="space-6"></div>
 
-											<form id="loginForm" th:object="${member}" method="post">
+											<form th:id="loginForm" th:action="@{http://localhost:8081/public/login}" method="post">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input th:value="*{memberName}" th:name="memberName" type="text" class="form-control" placeholder="Username" />
+															<input name="memberName" type="text" class="form-control" placeholder="Username" />
 															<i class="icon-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input th:value="*{password}" th:name="password" type="password" class="form-control" placeholder="Password" />
+															<input name="password" type="password" class="form-control" placeholder="Password" />
 															<i class="icon-lock"></i>
 														</span>
 													</label>
@@ -88,7 +88,7 @@
 
 													<div class="clearfix">
 														<label class="inline">
-															<input th:name="rememberMe" th:value="yes" type="checkbox" class="ace" />
+															<input name="rememberMe" value="yes" type="checkbox" class="ace" />
 															<span class="lbl"> Remember Me</span>
 														</label>
 

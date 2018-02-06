@@ -37,7 +37,7 @@ public class ShiroConfig {
 
         filterChainDefinitionMap.put("/**", "authc");
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        shiroFilterFactoryBean.setLoginUrl("/public/login");
+        shiroFilterFactoryBean.setLoginUrl("/public/loginView");
         // 登录成功后要跳转的链接
         shiroFilterFactoryBean.setSuccessUrl("/index");
 
@@ -53,6 +53,7 @@ public class ShiroConfig {
         System.err.println("--------------shiro已经加载----------------");
         DefaultWebSecurityManager manager=new DefaultWebSecurityManager();
         manager.setRealm(authRealm);
+        manager.setRememberMeManager(rememberMeManager());
         return manager;
     }
     //配置自定义的权限登录器
@@ -69,26 +70,30 @@ public class ShiroConfig {
     }
 
     /**
-     * cookie对象;
+     * cookie管理器;
      * @return
      */
+    @Bean
+    public CookieRememberMeManager rememberMeManager(){
+        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+        //rememberme cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位），通过以下代码可以获取
+        //KeyGenerator keygen = KeyGenerator.getInstance("AES");
+        //SecretKey deskey = keygen.generateKey();
+        //System.out.println(Base64.encodeToString(deskey.getEncoded()));
+        byte[] cipherKey = Base64.decode("wGiHplamyXlVB11UXWol8g==");
+        cookieRememberMeManager.setCipherKey(cipherKey);
+        cookieRememberMeManager.setCookie(rememberMeCookie());
+        return cookieRememberMeManager;
+    }
+    @Bean
     public SimpleCookie rememberMeCookie(){
         //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-        //<!-- 记住我cookie生效时间30天 ,单位秒;-->
-        simpleCookie.setMaxAge(2592000);
-        return simpleCookie;
-    }
+        //如果httyOnly设置为true，则客户端不会暴露给客户端脚本代码，使用HttpOnly cookie有助于减少某些类型的跨站点脚本攻击；
+        simpleCookie.setHttpOnly(true);
+        //记住我cookie生效时间,默认30天 ,单位秒：60 * 60 * 24 * 30
+        simpleCookie.setMaxAge(259200);
 
-    /**
-     * cookie管理对象;记住我功能
-     * @return
-     */
-    public CookieRememberMeManager rememberMeManager(){
-        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-        cookieRememberMeManager.setCookie(rememberMeCookie());
-        //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
-        cookieRememberMeManager.setCipherKey(Base64.decode("3AvVhmFLUs0KTA3Kprsdag=="));
-        return cookieRememberMeManager;
+        return simpleCookie;
     }
 }
