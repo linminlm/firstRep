@@ -87,12 +87,14 @@
 													<div class="space"></div>
 
 													<div class="clearfix">
-														<label class="inline">
-															<input name="rememberMe" value="yes" type="checkbox" class="ace" />
-															<span class="lbl"> Remember Me</span>
-														</label>
+														<label style="color:red" th:text="${msg}" class="block clearfix">
 
-														<button onclick="loginFun()" type="button" class="width-35 pull-right btn btn-sm btn-primary">
+														</label>
+													</div>
+
+													<div class="clearfix">
+
+														<button onclick="loginFun()" type="button" class="width-100 pull-right btn btn-sm btn-primary">
 															<i class="icon-key"></i>
 															Login
 														</button>

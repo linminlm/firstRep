@@ -2,6 +2,7 @@ package com.example.controller.index;
 
 import com.example.entity.security.Member;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @项目：test
@@ -20,19 +22,14 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/public")
 public class PublicController {
     @RequestMapping(value="/login",method = {RequestMethod.POST,RequestMethod.GET})
-    public String loginUser(Member member,String rememberMe, HttpServletRequest request) {
-        Boolean rem = rememberMe != null&&rememberMe.equals("yes")?true:false;
-        String memberName = request.getParameter("memberName");
-        String password = request.getParameter("password");
-        UsernamePasswordToken usernamePasswordToken=new UsernamePasswordToken(member.getMemberName(),member.getPassword(),rem);
-        Subject subject = SecurityUtils.getSubject();
+    public String loginUser(Member member, HttpServletRequest request,Map<String,Object> map) {
+        UsernamePasswordToken token = new UsernamePasswordToken(member.getMemberName(), member.getPassword());
         try {
-            subject.login(usernamePasswordToken);   //完成登录
-            //TODO
-            //Member member=(Member) subject.getPrincipal();
-            return "index";
-        } catch(Exception e) {
-            return "/public/login";//返回登录页面
+            SecurityUtils.getSubject().login(token);
+            return "/index";
+        } catch (AuthenticationException e) {
+            map.put("msg","用户名或密码错误");
+            return "/public/login";
         }
 
     }
