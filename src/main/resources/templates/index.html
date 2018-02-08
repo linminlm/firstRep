@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorator="index/base">
 <head>
     <meta charset="UTF-8"/>
     <title>hello</title>
 </head>
 <body>
-    <h1>你好！</h1>
-<a th:href="@{/public/logout}">退出</a>
+    <div layout:fragment="content">
+        <h2>hello world!!!</h2>
+    </div>
 </body>
 </html>
