@@ -3,7 +3,6 @@ package com.example.advice;
 import com.example.Enum.UserEnum;
 import com.example.entity.nosql.ApiMonitorInfo;
 import com.example.entity.user.PubUser;
-import com.example.entity.user.User;
 import com.example.exception.UserException;
 import com.example.result.DataResult;
 import com.example.service.ApiMonitorInfoService;
@@ -23,7 +22,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -49,8 +47,6 @@ public class HttpAdvice {
     @Pointcut("execution(public * com.example.controller.api.ApiUserController.*(..)))")
     public void userApiCut(){}
 
-    @Pointcut("execution(public * com.example.controller.user.UserController.*(..)))")
-    public void userConCut(){}
 
     /**
      *  对api的使用进行统计
@@ -87,20 +83,6 @@ public class HttpAdvice {
 //        map.put(controllerName+"."+methodName,count+"");
 //        jedis.hmset(userIP,map);
 //    }
-
-    @Around("userConCut()")
-    public Object isLogin(ProceedingJoinPoint joinPoint) throws Throwable {
-        //get request to get session
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        //get session to get user info
-        HttpSession session = request.getSession();
-
-        User bootUser = (User) session.getAttribute("bootUser");
-        if(bootUser == null){
-            return "redirect:/login";
-        }
-        return joinPoint.proceed();
-    }
 
     /**
      * 对返回值再次封装

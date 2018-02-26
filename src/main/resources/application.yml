@@ -14,16 +14,6 @@ spring:
     mongodb:
       uri: mongodb://test:boot@localhost:27017/testboot
 
-  thymeleaf:
-    mode: LEGACYHTML5
-    encoding: UTF-8
-    content-type: text/html
-    cache: false
-    prefix: classpath:/templates/
-
-  mvc:
-    favicon:
-      enabled: false
   mail:
     host: smtp-mail.outlook.com
     username: lm15860256087@outlook.com

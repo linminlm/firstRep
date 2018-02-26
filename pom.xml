@@ -106,6 +106,13 @@
 			<version>1.4.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.crazycake/shiro-redis -->
+		<dependency>
+			<groupId>org.crazycake</groupId>
+			<artifactId>shiro-redis</artifactId>
+			<version>2.4.2.1-RELEASE</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>

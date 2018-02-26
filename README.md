@@ -10,7 +10,7 @@
 <p>If you have any good Suggestions and comments, please let me know.</p>
 <p>My QQ : 806751350</p>
 
-<p>Project about springBoot</p>
+<p>API Counter used springboot</p>
 <p>############## Version 1.0 ###################</p>
 <p>Only a empty project!</p>
 <p>############## Version 2.0 ###################</p>
@@ -24,8 +24,12 @@
 <p>############## Version 2.2 ###################</p>
 <p>Using thymeleaf to add user list display page</p>
 <p>Integration with mybatis and using configuration files and annotations.</p>
-<p>############## Version 2.3 ###################</P>
-<P>Added schedul tasks to move the data of mongodb to mysql.</>
+<p>############## Version 2.3 ###################</p>
+<p>Added schedul tasks to move the data of mongodb to mysql.</p>
+<p>############## Version last###################</p>
+<p>Remove all codes except about apiCounter</p>
+<p>Because I'll create new project to achieve My project.</p>
+<p>This project writes external interfaces.</p>
 
 
 
