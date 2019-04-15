@@ -3,9 +3,8 @@ package com.example.result;
 /**
  * 返回结果统一格式{"status":200,"message":"成功",data:...}
  * @项目：test
- * @创建者：linmin
+ * @author ：linmin
  * @创建时间：2018/1/8
- * @公司：汽车易生活
  */
 public class DataResult<T> {
 

@@ -5,9 +5,8 @@ import com.example.entity.nosql.ApiMonitorInfo;
 /**
  * @api功能
  * @项目：test
- * @创建者：linmin
+ * @author ：linmin
  * @创建时间：2018/1/11
- * @公司：汽车易生活
  */
 public interface ApiMonitorInfoService {
 

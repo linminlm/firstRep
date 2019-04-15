@@ -27,9 +27,8 @@ import java.util.Date;
 
 /**
  * @项目：test
- * @创建者：linmin
+ * @author ：linmin
  * @创建时间：2017/12/27
- * @公司：汽车易生活
  */
 
 @Aspect
@@ -93,7 +92,8 @@ public class HttpAdvice {
     @Around("userApiCut()")
     public DataResult resData(ProceedingJoinPoint joinPoint) throws Throwable {
         //Data updates are not allowed to be invoked.(00:00 - 03:00)
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm");//设置日期格式
+        //设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         Date now =null;
         Date beginTime = null;
         Date endTime = null;

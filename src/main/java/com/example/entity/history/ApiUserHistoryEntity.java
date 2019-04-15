@@ -5,9 +5,8 @@ import java.util.Date;
 
 /**
  * @项目：test
- * @创建者：linmin
+ * @author ：linmin
  * @创建时间：2018/1/16
- * @公司：汽车易生活
  */
 
 @Entity

@@ -14,9 +14,8 @@ import java.util.List;
 /**
  * @定时任务之从mongodb中将数据迁移到mysql并清空mongodb中的数据
  * @项目：test
- * @创建者：linmin
+ * @author ：linmin
  * @创建时间：2018/1/16
- * @公司：汽车易生活
  */
 
 @Component

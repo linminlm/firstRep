@@ -10,9 +10,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * @项目：test
- * @创建者：linmin
+ * @author ：linmin
  * @创建时间：2018/1/11
- * @公司：汽车易生活
  */
 @Component
 public class ApiMonitorInfoServiceImpl implements ApiMonitorInfoService {

@@ -7,25 +7,32 @@ import java.io.Serializable;
 /**
  * api计数器的接口存于mongodb
  * @项目：test
- * @创建者：linmin
+ * @author ：linmin
  * @创建时间：2018/1/11
- * @公司：汽车易生活
  */
 public class ApiMonitorInfo implements Serializable {
 
     private static final long serialVersionUID = -3258839839160856613L;
     private ObjectId _id;
 
-    //用户IP
+    /**
+     * 用户IP
+     */
     private String userIP;
 
-    //调用的方法名
+    /**
+     * 调用的方法名
+     */
     private String methodName;
 
-    //调用的方法所在控制器
+    /**
+     * 所在类
+     */
     private String controllerName;
 
-    //调用次数
+    /**
+     * 调用次数
+     */
     private Long counter;
 
     public ObjectId get_id() {

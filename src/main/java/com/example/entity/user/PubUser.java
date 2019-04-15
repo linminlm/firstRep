@@ -2,6 +2,9 @@ package com.example.entity.user;
 
 import javax.persistence.*;
 
+/**
+ * @author linmin
+ */
 @Entity
 public class PubUser {
 
@@ -25,7 +28,9 @@ public class PubUser {
 
     private String salt;
 
-    //00:Unchecked  01:OK  02:lock
+    /**
+     * 用户状态00:Unchecked  01:OK  02:lock
+     */
     private String status;
 
     private String checkCode;

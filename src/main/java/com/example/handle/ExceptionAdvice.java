@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 异常处理类
  * @项目：test
- * @创建者：linmin
+ * @author ：linmin
  * @创建时间：2018/1/9
- * @公司：汽车易生活
  */
 @ControllerAdvice
 public class ExceptionAdvice {
