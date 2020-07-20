@@ -126,7 +126,9 @@ public class HttpAdvice {
         }
 
         PubUser onePubUser = pubUserService.getOnePubUser(username);
-        if(onePubUser == null || !DigestUtils.md5Hex(onePubUser.getPrivateKey()).equals(publicKey) || !onePubUser.getStatus().equals("01")){
+        if(null == onePubUser
+                || !DigestUtils.md5Hex(onePubUser.getPrivateKey()).equals(publicKey)
+                || !onePubUser.getStatus().equals("01")){
             log.error("调用接口失败原因：默认参数不对！");
             throw new UserException(UserEnum.UNKNOWN_FAIL);
         }
