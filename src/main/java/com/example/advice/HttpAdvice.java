@@ -1,6 +1,7 @@
 package com.example.advice;
 
 import com.example.Enum.UserEnum;
+import com.example.constant.RedisConstant;
 import com.example.entity.nosql.ApiMonitorInfo;
 import com.example.entity.user.PubUser;
 import com.example.exception.UserException;
@@ -8,11 +9,14 @@ import com.example.result.DataResult;
 import com.example.service.ApiMonitorInfoService;
 import com.example.service.PubUserService;
 import com.example.util.DateUtil;
+import com.example.util.RedisUtil;
 import com.example.util.ResultUtil;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -52,36 +57,24 @@ public class HttpAdvice {
      *  存放在redis中
      * @param joinPoint
      */
-//    @Before("userCut()")
-//    public void beforeRequest(JoinPoint joinPoint){
-//        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        //get session to get user info
-//        HttpSession session = request.getSession();
-//
-//        //user compared to userdata of mysql.    not available
-//
-//        //get IP of user
-//        String userIP = request.getRemoteAddr();
-//
-//        //get Controller className
-//        String controllerName = joinPoint.getTarget().getClass().getName();
-//
-//        //get method name
-//        String methodName = joinPoint.getSignature().getName();
-//
-//        //Connect redis to save info
-//        Jedis jedis = RedisUtil.getJedis();
-//
-//        //save data => key:ip value:"ip:xxx.xxx.xxx.xxx | className:xxx | method:xxx | count:x"
-//        int count = 1;
-//        if(jedis.hexists(userIP, controllerName + "." + methodName)){
-//            String countStr = jedis.hget(userIP, controllerName + "." + methodName).toString();
-//            count = Integer.parseInt(countStr)+1;
-//        }
-//        Map<String, String> map = new HashMap<>();
-//        map.put(controllerName+"."+methodName,count+"");
-//        jedis.hmset(userIP,map);
-//    }
+    @Before("userCut()")
+    public void beforeRequest(JoinPoint joinPoint){
+        //get Controller className
+        String controllerName = joinPoint.getTarget().getClass().getName();
+
+        //get method name
+        String methodName = joinPoint.getSignature().getName();
+
+        //Connect redis to save info
+        Jedis jedis = RedisUtil.getJedis();
+
+        //save data => key:apiCount member:controllerName+.+methodName score:count
+        int count = 1;
+        String member = new StringBuffer().append(controllerName).append(".").append(methodName).toString();
+
+        //use zset in order to get TOP10
+        jedis.zincrby(RedisConstant.API_COUNT_KEY,count,member);
+    }
 
     /**
      * 对返回值再次封装
